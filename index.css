@@ -49,3 +49,38 @@ p {
   background: #659B5E;
 }
 
+.toggle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.toggle-text {
+  margin-top: 0;
+}
+
+.toggle-btn {
+  width: 60px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 0 10px;
+  padding: 5px;
+  background: gray;
+}
+
+.inner-circle {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  transition: all 250ms;
+}
+
+.toggle-btn.toggled > .inner-circle {
+  transform: translateX(30px);
+  background: #333;
+}
+
+.unselected {
+  opacity: .40;
+}
