@@ -3,6 +3,8 @@ const hexInput = document.getElementById("hexInput")
 const inputColor = document.getElementById("inputColor")
 const sliderText = document.getElementById("sliderText")
 const slider = document.getElementById("slider")
+const alteredColor = document.getElementById("alteredColor")
+
 
 
 hexInput.addEventListener('keyup', () => {
@@ -57,21 +59,29 @@ function rgbToHex(r,g,b) {
 
 // console.log(rgbToHex(428,15,173))
 
-slider.addEventListener('input', () => {
-  sliderText.textContent = `${slider.value}%`
-})
-
 function alterColor(hex, percent) {
   const rgbValue = hexToRgb(hex)
   const addValue = Math.floor((percent/100)*255)
-  const newRed =  rgbValue.r + addValue
-  const newGreen = rgbValue.g + addValue
-  const newBlue = rgbValue.b + addValue
+  const newRed =  increaseWithin0To255(rgbValue.r, addValue)
+  const newGreen = increaseWithin0To255(rgbValue.g, addValue)
+  const newBlue = increaseWithin0To255(rgbValue.b, addValue)
 
   const newHex = rgbToHex(newRed, newGreen, newBlue)
-  
-  console.log(newHex)
+
+  console.log(newHex, percent, addValue)
   return newHex
 }
 
-alterColor(hexInput.value, 40)
+const increaseWithin0To255 = (hex, addValue) => {
+   const newHex = hex + addValue
+   if (newHex > 255) return 255
+   if (newHex < 0) return 0
+   return newHex
+}
+
+
+slider.addEventListener('input', () => {
+  sliderText.textContent = `${slider.value}%`
+  const updatedHex = alterColor(hexInput.value, slider.value)
+  alteredColor.style.background = updatedHex
+})
