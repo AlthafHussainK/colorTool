@@ -4,7 +4,7 @@ const inputColor = document.getElementById("inputColor")
 const sliderText = document.getElementById("sliderText")
 const slider = document.getElementById("slider")
 const alteredColor = document.getElementById("alteredColor")
-
+const alteredColorText = document.getElementById("alteredColorText")
 
 
 hexInput.addEventListener('keyup', () => {
@@ -84,4 +84,5 @@ slider.addEventListener('input', () => {
   sliderText.textContent = `${slider.value}%`
   const updatedHex = alterColor(hexInput.value, slider.value)
   alteredColor.style.background = updatedHex
+  alteredColorText.innerText = `Altered Color ${updatedHex}`
 })
