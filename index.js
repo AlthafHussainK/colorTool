@@ -5,17 +5,31 @@ const sliderText = document.getElementById("sliderText")
 const slider = document.getElementById("slider")
 const alteredColor = document.getElementById("alteredColor")
 const alteredColorText = document.getElementById("alteredColorText")
+const lightenText = document.getElementById("lightenText")
+const darkenText = document.getElementById("darkenText")
+const toggleBtn = document.getElementById('toggleBtn')
 
+toggleBtn.addEventListener('click', () => {
+  if (toggleBtn.classList.contains('toggled')){
+    toggleBtn.classList.remove('toggled')
+    lightenText.classList.remove('unselected')
+    darkenText.classList.add('unselected')
+  } else {
+    toggleBtn.classList.add('toggled')
+    lightenText.classList.add('unselected')
+    darkenText.classList.remove('unselected')
+  }
+  reset()
+})
 
 hexInput.addEventListener('keyup', () => {
   const hex = hexInput.value 
-
   if (!isValidHex(hex)) return;
 
   const strippedHex = hex.replace('#', '')
 
   inputColor.style.background = '#' + strippedHex
-
+  reset()
 })
 
 const isValidHex = (hex) => {
@@ -82,7 +96,21 @@ const increaseWithin0To255 = (hex, addValue) => {
 
 slider.addEventListener('input', () => {
   sliderText.textContent = `${slider.value}%`
-  const updatedHex = alterColor(hexInput.value, slider.value)
+  
+  let updatedHex
+  if (toggleBtn.classList.contains('toggled')){
+    updatedHex = alterColor(hexInput.value, -slider.value)
+  } else {
+    updatedHex = alterColor(hexInput.value, slider.value)
+  }
+  
   alteredColor.style.background = updatedHex
   alteredColorText.innerText = `Altered Color ${updatedHex}`
 })
+
+const reset = () => {
+  slider.value = 0
+  sliderText.innerText = '0%'
+  alteredColor.style.background = hexInput.value
+  alteredColorText.innerText = `Altered Color ${hexInput.value}`
+}
