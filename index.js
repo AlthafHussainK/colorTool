@@ -37,4 +37,30 @@ function hexToRgb(hex) {
   return {r,g,b}
 }
 
-console.log(hexToRgb(hexInput.value))
+
+const rgbval = hexToRgb(hexInput.value)
+console.log(rgbval)
+
+function rgbToHex(rgb) {
+  let backHex = rgb.r.toString(16) + rgb.g.toString(16) + rgb.b.toString(16)
+
+  if(backHex.length === 3){
+    backHex = backHex.split('').map(a => a.repeat(2)).join('')
+  }
+
+  console.log("#"+backHex)
+}
+
+function rgbToHex1(r,g,b) {
+  const redHex = ("0"+ r.toString(16)).slice(-2)
+  const greenHex = ("0"+ g.toString(16)).slice(-2)
+  const blueHex = ("0"+ b.toString(16)).slice(-2)
+  
+  let backHex = "#" + redHex + greenHex + blueHex
+  
+  return backHex
+}
+
+console.log(rgbToHex1(0,15,173))
+
+rgbToHex(rgbval)
