@@ -8,7 +8,9 @@ const alteredColorText = document.getElementById("alteredColorText")
 const lightenText = document.getElementById("lightenText")
 const darkenText = document.getElementById("darkenText")
 const toggleBtn = document.getElementById('toggleBtn')
-const hexCheck = document.getElementById("hexCheck")
+const invalidHex = document.getElementById("invalidHex")
+
+invalidHex.style.display = 'none'
 
 toggleBtn.addEventListener('click', () => {
   if (toggleBtn.classList.contains('toggled')){
@@ -25,12 +27,15 @@ toggleBtn.addEventListener('click', () => {
 
 hexInput.addEventListener('keyup', () => {
   const hex = hexInput.value 
-  if (!isValidHex(hex)) return;
+  if (!isValidHex(hex)) {
+    invalidHex.style.display = 'inline' 
+    return;
+  }
 
   const strippedHex = hex.replace('#', '')
 
   inputColor.style.backgroundColor = '#' + strippedHex
-  hexCheck.style.display = 'none'
+  invalidHex.style.display = 'none'
   reset()
 })
 
@@ -43,10 +48,8 @@ const isValidHex = (hex) => {
   const regExp = /^[0-9a-fA-F]+$/
   if (!regExp.test(strippedHex)) return false
 
-
   return strippedHex.length === 3 || strippedHex.length === 6
  }
- //challenge: check for invalid chars in hex
 
 // convert hex to rgb
 function hexToRgb(hex) {
@@ -64,34 +67,27 @@ function hexToRgb(hex) {
   return {r,g,b}
 }
 
-
-// const rgbval = hexToRgb(hexInput.value)
-// console.log(rgbval)
-
-
 function rgbToHex(r,g,b) {
   const redHex = ("0"+ r.toString(16)).slice(-2)
   const greenHex = ("0"+ g.toString(16)).slice(-2)
   const blueHex = ("0"+ b.toString(16)).slice(-2)
   
-  let backHex = "#" + redHex + greenHex + blueHex
+  let hex = "#" + redHex + greenHex + blueHex
 
-  return backHex
+  return hex
 }
 
 // console.log(rgbToHex(428,15,173))
 
 function alterColor(hex, percent) {
-  const rgbValue = hexToRgb(hex)
+  const {r,g,b} = hexToRgb(hex)
   const addValue = Math.floor((percent/100)*255)
-  const newRed =  increaseWithin0To255(rgbValue.r, addValue)
-  const newGreen = increaseWithin0To255(rgbValue.g, addValue)
-  const newBlue = increaseWithin0To255(rgbValue.b, addValue)
 
-  const newHex = rgbToHex(newRed, newGreen, newBlue)
+  const newRed =  increaseWithin0To255(r, addValue)
+  const newGreen = increaseWithin0To255(g, addValue)
+  const newBlue = increaseWithin0To255(b, addValue)
 
-  console.log(newHex, percent, addValue)
-  return newHex
+  return rgbToHex(newRed, newGreen, newBlue)
 }
 
 const increaseWithin0To255 = (hex, addValue) => {
@@ -101,8 +97,9 @@ const increaseWithin0To255 = (hex, addValue) => {
    return newHex
 }
 
-
 slider.addEventListener('input', () => {
+  if (!isValidHex(hexInput.value)) return
+
   sliderText.textContent = `${slider.value}%`
   
   let updatedHex
@@ -112,13 +109,14 @@ slider.addEventListener('input', () => {
     updatedHex = alterColor(hexInput.value, slider.value)
   }
   
-  alteredColor.style.background = updatedHex
+  alteredColor.style.backgroundColor = updatedHex
   alteredColorText.innerText = `Altered Color ${updatedHex}`
 })
 
 const reset = () => {
   slider.value = 0
   sliderText.innerText = '0%'
-  alteredColor.style.background = hexInput.value
+  invalidHex.style.display = 'none'
+  alteredColor.style.backgroundColor = `#${hexInput.value}`
   alteredColorText.innerText = `Altered Color ${hexInput.value}`
 }
