@@ -101,12 +101,13 @@ slider.addEventListener('input', () => {
   if (!isValidHex(hexInput.value)) return
 
   sliderText.textContent = `${slider.value}%`
+  const strippedHex = hexInput.value.replace('#', '')
   
   let updatedHex
   if (toggleBtn.classList.contains('toggled')){
-    updatedHex = alterColor(hexInput.value, -slider.value)
+    updatedHex = alterColor(strippedHex, -slider.value)
   } else {
-    updatedHex = alterColor(hexInput.value, slider.value)
+    updatedHex = alterColor(strippedHex, slider.value)
   }
   
   alteredColor.style.backgroundColor = updatedHex
@@ -117,6 +118,7 @@ const reset = () => {
   slider.value = 0
   sliderText.innerText = '0%'
   invalidHex.style.display = 'none'
-  alteredColor.style.backgroundColor = `#${hexInput.value}`
-  alteredColorText.innerText = `Altered Color ${hexInput.value}`
+  const strippedHex = hexInput.value.replace('#', '')
+  alteredColor.style.backgroundColor = `#${strippedHex}`
+  alteredColorText.innerText = `Altered Color ${strippedHex}`
 }
