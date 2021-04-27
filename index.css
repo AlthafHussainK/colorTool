@@ -36,7 +36,6 @@ input[type="text"] {
 
 #sliderText {
   display: block;
-
 }
 .slider {
   display: block;
@@ -62,8 +61,8 @@ p {
 }
 
 .toggle-btn {
-  width: 60px;
-  height: 30px;
+  width: 40px;
+  height: 20px;
   border-radius: 30px;
   margin: 15px 10px;
   padding: 5px;
@@ -71,15 +70,15 @@ p {
 }
 
 .inner-circle {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background: white;
   border-radius: 50%;
   transition: all 250ms;
 }
 
 .toggle-btn.toggled > .inner-circle {
-  transform: translateX(30px);
+  transform: translateX(20px);
   background: #333;
 }
 
