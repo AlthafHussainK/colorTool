@@ -8,6 +8,7 @@ const alteredColorText = document.getElementById("alteredColorText")
 const lightenText = document.getElementById("lightenText")
 const darkenText = document.getElementById("darkenText")
 const toggleBtn = document.getElementById('toggleBtn')
+const hexCheck = document.getElementById("hexCheck")
 
 toggleBtn.addEventListener('click', () => {
   if (toggleBtn.classList.contains('toggled')){
@@ -28,7 +29,8 @@ hexInput.addEventListener('keyup', () => {
 
   const strippedHex = hex.replace('#', '')
 
-  inputColor.style.background = '#' + strippedHex
+  inputColor.style.backgroundColor = '#' + strippedHex
+  hexCheck.style.display = 'none'
   reset()
 })
 
@@ -36,6 +38,12 @@ const isValidHex = (hex) => {
   if (!hex) return false
 
   const strippedHex = hex.replace('#', '')
+
+  //hexdecimal validation
+  const regExp = /^[0-9a-fA-F]+$/
+  if (!regExp.test(strippedHex)) return false
+
+
   return strippedHex.length === 3 || strippedHex.length === 6
  }
  //challenge: check for invalid chars in hex
